@@ -67,7 +67,7 @@ set(DBCL_HEADERS
 add_library(dbc STATIC
         ${BISON_DBC_PARSER_OUTPUTS}
         ${FLEX_DBC_SCANNER_OUTPUTS}
-        ${DBCL_HEADERS}
+        ${DBCL_HEADERS} # not needed for cmake 3.23 and above, because FILE_SET is used
         src/attribute.cpp
         src/network.cpp
         src/envvar.cpp
@@ -122,20 +122,19 @@ endif ()
 #####  Packaging and installation  ###############################################
 ##################################################################################
 # install headers
-# FILE_SET makes problems with GTest
-#if (${CMAKE_MINOR_VERSION} GREATER_EQUAL 23)
-#    target_sources(dbc PUBLIC
-#                        FILE_SET HEADERS
-#                        TYPE HEADERS
-#                        BASE_DIRS include/dbc
-#                        FILES ${HEADERS})
-#else()
+if (${CMAKE_MINOR_VERSION} GREATER_EQUAL 23)
+    target_sources(dbc PUBLIC
+                        FILE_SET HEADERS
+                        TYPE HEADERS
+                        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include
+                        FILES ${DBCL_HEADERS})
+else()
     if (WIN32)
         install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/dbc DESTINATION dbc/include)
     else()
         install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/dbc DESTINATION include)
     endif()
-#endif()
+endif()
 
 if (WIN32)
     install(TARGETS dbc
@@ -143,7 +142,7 @@ if (WIN32)
             LIBRARY DESTINATION dbc/lib
             ARCHIVE DESTINATION dbc/lib
             RUNTIME DESTINATION dbc/bin
-#            FILE_SET HEADERS DESTINATION dbc/include
+            FILE_SET HEADERS DESTINATION dbc/include
     )
 else()
     install(TARGETS dbc
@@ -152,7 +151,7 @@ else()
             ARCHIVE DESTINATION lib
             RUNTIME DESTINATION bin
 #            PUBLIC_HEADER
-#            FILE_SET HEADERS DESTINATION include/dbc
+            FILE_SET HEADERS DESTINATION include/dbc
         )
 endif()
 
