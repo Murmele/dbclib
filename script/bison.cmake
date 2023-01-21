@@ -3,6 +3,6 @@
 
 include(CMakePrintHelpers)
 if (NOT BISON_FOUND)
-    find_package(BISON)
+    find_package(BISON 3.2)
     cmake_print_variables(BISON_FOUND BISON_EXECUTABLE BISON_VERSION)
 endif()
