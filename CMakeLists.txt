@@ -52,7 +52,10 @@ if (FLEX_FOUND)
             FLEX_INCLUDE_DIRS)
 endif ()
 
-ADD_FLEX_BISON_DEPENDENCY(DBC_SCANNER DBC_PARSER)
+if (FLEX_FOUND AND BISON_FOUND)
+    ADD_FLEX_BISON_DEPENDENCY(DBC_SCANNER DBC_PARSER)
+endif()
+
 set(DBCL_HEADERS
     include/dbc/attribute.h
     include/dbc/network.h
