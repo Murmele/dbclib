@@ -62,6 +62,9 @@ set(DBCL_HEADERS
     include/dbc/signal.h
     include/dbc/signalgroup.h
     include/dbc/dbcfile.h
+    include/dbc/dbcmessage.h
+    include/dbc/isampleobserver.h
+    include/dbc/signalobserver.h
 )
 
 add_library(dbc STATIC
@@ -77,7 +80,7 @@ add_library(dbc STATIC
         src/signalgroup.cpp
         src/dbcscanner.cpp src/dbcscanner.h
         src/dbcfile.cpp
-        src/dbchelper.cpp src/dbchelper.h src/dbcmessage.cpp include/dbc/dbcmessage.h include/dbc/isampleobserver.h src/signalobserver.cpp include/dbc/signalobserver.h)
+        src/dbchelper.cpp src/dbchelper.h src/dbcmessage.cpp  src/signalobserver.cpp)
 
 target_include_directories(dbc PUBLIC
         $<INSTALL_INTERFACE:include>
