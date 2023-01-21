@@ -29,7 +29,7 @@ jobs:
             cmake_env: {}
 
           - name: macos
-            os: macos-12
+            os: macos-latest
             ninja_platform: mac
             cmake_env:
               CC: clang
