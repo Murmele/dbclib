@@ -83,6 +83,13 @@ jobs:
         with:
           arch: ${{ matrix.env.msvc_arch }}
 
+      - name: Setup Flex on windows
+        if: matrix.env.ninja_platform == 'win'
+        run: |
+            git clone https://github.com/westes/flex.git
+            cd flex
+            ./configure
+
       - name: Install llvm
         if: matrix.env.ninja_platform == 'mac'
         run: brew install llvm
