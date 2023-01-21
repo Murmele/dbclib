@@ -124,6 +124,7 @@ endif ()
 ##################################################################################
 #####  Packaging and installation  ###############################################
 ##################################################################################
+include(GNUInstallDirs) # defines the CMAKE_INSTALL_* variables
 # install headers
 if (${CMAKE_MINOR_VERSION} GREATER_EQUAL 23)
     target_sources(dbc PUBLIC
@@ -131,31 +132,21 @@ if (${CMAKE_MINOR_VERSION} GREATER_EQUAL 23)
                         TYPE HEADERS
                         BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include
                         FILES ${DBCL_HEADERS})
-else()
-    if (WIN32)
-        install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/dbc DESTINATION dbc/include)
-    else()
-        install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/dbc DESTINATION include)
-    endif()
-endif()
-
-if (WIN32)
     install(TARGETS dbc
             EXPORT dbcTargets
-            LIBRARY DESTINATION dbc/lib
-            ARCHIVE DESTINATION dbc/lib
-            RUNTIME DESTINATION dbc/bin
-            FILE_SET HEADERS DESTINATION dbc/include
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 else()
     install(TARGETS dbc
             EXPORT dbcTargets
-            LIBRARY DESTINATION lib
-            ARCHIVE DESTINATION lib
-            RUNTIME DESTINATION bin
-#            PUBLIC_HEADER
-            FILE_SET HEADERS DESTINATION include/dbc
-        )
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/dbc DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif()
 
 include(CMakePackageConfigHelpers)
