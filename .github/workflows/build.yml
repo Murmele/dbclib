@@ -83,28 +83,9 @@ jobs:
         with:
           arch: ${{ matrix.env.msvc_arch }}
 
-      - name: Build expat
-        if: matrix.env.ninja_platform == 'mac'
-        run: |
-          # https://macappstore.org/expat/
-          curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-          echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-          brew install expat
-
       - name: Install llvm
         if: matrix.env.ninja_platform == 'mac'
         run: brew install llvm
-
-      # https://stackoverflow.com/questions/23749530/brew-install-zlib-devel-on-mac-os-x-mavericks
-      - name: zlib
-        if: matrix.env.ninja_platform == 'mac'
-        run: |
-          wget https://www.zlib.net/zlib-1.2.12.tar.xz
-          tar -xvf zlib-1.2.12.tar.xz
-          cd zlib-1.2.12
-          ./configure
-          make
-          make install
 
       - name: Build Information
         run: |
